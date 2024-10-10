@@ -10,7 +10,81 @@ const cardBackImgPath = "images/card-back-Blue.png"
 
 const cardContainerElem = document.querySelector(".card-container")
 
-createCards()
+let cards = []
+
+const playGameButtonElem = document.getElementById("playGame")
+
+const collapsedGridAreaTemplate = '"a a" "a a"'
+const cardCollectionCellClass = ".card-pos-a"
+
+loadGame()
+
+function loadGame() {
+    createCards()
+
+    cards = document.querySelectorAll(".card")
+
+    playGameButtonElem.addEventListener("click", () => {startGame()})
+}
+
+function startGame()
+{
+    initializeNewGame()
+    startRound()
+}
+
+function initializeNewGame() {
+
+}
+
+function startRound() {
+    initializeNewRound()
+    collectionCards()
+    flipCards(true)
+}
+
+function initializeNewRound() {
+
+}
+
+function collectionCards() {
+    transformGridArea(collapsedGridAreaTemplate)
+    addCardsToGridAreaCell(cardCollectionCellClass)
+}
+
+function transformGridArea(areas) {
+    cardContainerElem.style.gridTemplateAreas = areas
+}
+
+function addCardsToGridAreaCell(cellPositionClassName) {
+    const cellPositionElem = document.querySelector(cellPositionClassName)
+
+    cards.forEach((card, index) => {
+        addChildElement(cellPositionElem, card)
+    })
+}
+
+function flipCard(card, flipToBack) {
+    const innerCardElem = card.firstChild
+
+    if (flipToBack && !innerCardElem.classList.contains("flip-it"))
+    {
+        innerCardElem.classList.add("flip-it")
+    }
+    else if (innerCardElem.classList.contains("flip-it"))
+    {
+        innerCardElem.classList.remove("flip-it")
+    }
+}
+
+function flipCards(flipToBack) {
+    cards.forEach((card, index) => {
+        setTimeout(() => {
+            flipCard(card, flipToBack)
+        }, index * 100)
+    })
+}
+
 
 function createCards()
 {
@@ -103,21 +177,17 @@ function addCardToGridCell(card)
 
 }
 function mapCardIdToGridCell(card){
-   
-    if(card.id == 1)
+    let cardID = card.id
+
+    switch(cardID) 
     {
-        return '.card-pos-a'
-    }
-    else if(card.id == 2)
-    {
-        return '.card-pos-b'
-    }
-    else if(card.id == 3)
-    {
-        return '.card-pos-c'
-    }
-    else if(card.id == 4)
-    {
-        return '.card-pos-d'
+        case "1":
+            return ".card-pos-a"
+        case "2":
+            return ".card-pos-b"
+        case "3":
+            return ".card-pos-c"
+        case "4":
+            return ".card-pos-d"
     }
 }

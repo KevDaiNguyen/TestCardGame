@@ -93,3 +93,7 @@ main {
 .card-inner:hover {
     transform: rotateY(180deg);
 }
+
+.card-inner.flip-it {
+    transform: rotateY(180deg);
+}
